@@ -79,16 +79,17 @@ def throttle_requests(requests_per_second):
 
 status_output = """
 # userid name uniqueid connected ping loss state rate
-# 1510 3 "avalone - debil" STEAM_1:1:504624495 09:26 108 0 active 196608
-# 1518 5 "lolllu87" STEAM_1:1:768319784 04:40 112 0 active 196608
-# 1491 6 "Spaghouta" STEAM_1:0:593847016 17:54 115 0 active 196608
-# 1512 7 "Вор в загонах" STEAM_1:1:770271183 09:20 104 0 active 786432
-# 776 8 "1v1" STEAM_1:1:792259059  4:52:38 58 0 active 786432
-# 1492 9 "ligmaballs" STEAM_1:1:163819997 17:20 55 0 active 786432
-# 1438 10 "kilmongerR?" STEAM_1:1:483405641 36:25 111 0 active 786432
-# 1520 11 "Marlen"" STEAM_1:1:485136882 02:38 62 0 active 196608
-# 1378 12 "Taboo" STEAM_1:1:497344131  1:01:18 97 0 active 786432
-# 1495 13 "Грубый ниоткуда" STEAM_1:1:431180069 10:25 105 0 active 196608
+# 3 2 "n1ko" STEAM_1:0:608717496 11:25 92 0 active 786432
+# 15 3 "KALIBR" STEAM_1:0:454318149 10:35 62 0 active 786432
+# 6 5 "Cool" STEAM_1:0:7673035 11:25 108 0 active 786432
+# 7 6 "DRAGUS ∰" STEAM_1:1:592973170 11:25 111 0 active 128000
+# 8 7 "Afrodisíaco" STEAM_1:1:740393488 11:25 93 0 active 786432
+# 10 9 "Stoble" STEAM_1:1:239746361 11:25 109 0 active 124000
+# 11 10 "RAnho peludo" STEAM_1:0:467375649 11:25 99 0 active 786432
+# 12 11 "qiosk<3" STEAM_1:0:638446620 11:25 75 0 active 196608
+# 13 12 "ок пон" STEAM_1:1:631547287 11:25 60 0 active 196608
+# 14 13 "Accept" STEAM_1:1:583201043 11:25 87 0 active 786432
+#end
 """
 
 faceit_api_key = "d7e53670-ffad-45cf-a8b7-08067f257c8e"
