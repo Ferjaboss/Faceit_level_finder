@@ -1,5 +1,7 @@
 import requests
 import re 
+import time
+
 def determine_faceit_level(faceit_elo):
     if faceit_elo >= 2001:
         return "10"
@@ -58,6 +60,10 @@ def extract_steam_ids_and_faceit_levels(status_data, faceit_api_key):
         name, universe, auth_server, account_id = match
         steam_id = f"STEAM_{universe}:{auth_server}:{account_id}"
         steam_id64 = steamid_to_64bit(steam_id)
+
+        # Throttle requests to the Faceit API to avoid rate limiting
+        throttle_requests(100)
+
         faceit_elo = get_faceit_level(steam_id64, faceit_api_key)
 
         if faceit_elo is not None:
@@ -67,6 +73,10 @@ def extract_steam_ids_and_faceit_levels(status_data, faceit_api_key):
             results.append((name, "Unknown"))
 
     return results
+def throttle_requests(requests_per_second):
+    delay = 1 / requests_per_second
+    time.sleep(delay)
+
 status_output = """
 # userid name uniqueid connected ping loss state rate
 # 1510 3 "avalone - debil" STEAM_1:1:504624495 09:26 108 0 active 196608
