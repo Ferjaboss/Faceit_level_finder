@@ -1,6 +1,9 @@
 import requests
 import re 
 import time
+import customtkinter as tk
+from prettytable import PrettyTable 
+from tkinter import ttk
 
 def determine_faceit_level(faceit_elo):
     if faceit_elo >= 2001:
@@ -24,7 +27,7 @@ def determine_faceit_level(faceit_elo):
     elif faceit_elo >= 1:
         return "1"
     else:
-        return "Unknown"
+        return "Unknown / Doesn't play Faceit"
     
 def steamid_to_64bit(steamid):
     steam64id = 76561197960265728
@@ -77,28 +80,53 @@ def throttle_requests(requests_per_second):
     delay = 1 / requests_per_second
     time.sleep(delay)
 
-status_output = """
-# userid name uniqueid connected ping loss state rate
-# 3 2 "n1ko" STEAM_1:0:608717496 11:25 92 0 active 786432
-# 15 3 "KALIBR" STEAM_1:0:454318149 10:35 62 0 active 786432
-# 6 5 "Cool" STEAM_1:0:7673035 11:25 108 0 active 786432
-# 7 6 "DRAGUS ∰" STEAM_1:1:592973170 11:25 111 0 active 128000
-# 8 7 "Afrodisíaco" STEAM_1:1:740393488 11:25 93 0 active 786432
-# 10 9 "Stoble" STEAM_1:1:239746361 11:25 109 0 active 124000
-# 11 10 "RAnho peludo" STEAM_1:0:467375649 11:25 99 0 active 786432
-# 12 11 "qiosk<3" STEAM_1:0:638446620 11:25 75 0 active 196608
-# 13 12 "ок пон" STEAM_1:1:631547287 11:25 60 0 active 196608
-# 14 13 "Accept" STEAM_1:1:583201043 11:25 87 0 active 786432
-#end
-"""
+def extract_and_display_faceit_levels():
+    status_data = input_text.get("1.0", tk.END)  # Get input from the text box
+    results = extract_steam_ids_and_faceit_levels(status_data, faceit_api_key)
 
+    # Clear the Treeview
+    for row in result_tree.get_children():
+        result_tree.delete(row)
+
+    # Insert the results into the Treeview
+    for name, faceit_level in results:
+        result_tree.insert("", "end", values=(name, faceit_level))
+
+def remove_placeholder(event):
+    current_text = input_text.get("1.0", tk.END).strip()
+    if current_text == placeholder_text:
+        input_text.delete("1.0", tk.END)
+
+# Create the main GUI window
+root = tk.CTk()  # Use tk.CTk() for custom tkinter
+root.title("Steam ID to Faceit Level")
+root.geometry("500x600")
+
+# Create an input text box for the status_output variable with larger size
+input_text = tk.CTkTextbox(root, wrap=tk.WORD, width=500, height=280)  # Adjust height and width as needed
+input_text.pack(expand=tk.YES, fill=tk.BOTH)
+
+# Placeholder text
+placeholder_text = "Type 'status' in the CS:GO console and paste the result here."
+
+# Add the placeholder text to the input text box
+input_text.insert(tk.END, placeholder_text)
+
+# Bind the remove_placeholder function to the input text box when it gains focus
+input_text.bind("<FocusIn>", remove_placeholder)
+
+# Create a button to extract and display Faceit levels using CTkButton
+extract_button = tk.CTkButton(root, text="Extract Faceit Levels", command=extract_and_display_faceit_levels)
+extract_button.pack()
+
+# Create a Treeview for displaying the results as a table
+result_tree = ttk.Treeview(root, columns=("Name", "Faceit Level"), show="headings")
+result_tree.heading("Name", text="Name")
+result_tree.heading("Faceit Level", text="Faceit Level")
+result_tree.pack(expand=tk.YES, fill=tk.BOTH)
+
+# Faceit API key
 faceit_api_key = "d7e53670-ffad-45cf-a8b7-08067f257c8e"
 
-# Extract Steam IDs and Faceit levels from the example status command output
-results = extract_steam_ids_and_faceit_levels(status_output, faceit_api_key)
-
-# Print the results in a table format
-print("{:<20} {:<15}".format("Name", "Faceit Level"))
-print("-" * 35)
-for name, faceit_level in results:
-    print("{:<20} {:<15}".format(name, faceit_level))
+# Start the GUI main loop
+root.mainloop()
