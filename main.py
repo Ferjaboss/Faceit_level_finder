@@ -4,6 +4,7 @@ import time
 import customtkinter as tk
 from prettytable import PrettyTable 
 from tkinter import ttk
+from dotenv import load_dotenv
 
 def determine_faceit_level(faceit_elo):
     if faceit_elo >= 2001:
@@ -126,7 +127,10 @@ result_tree.heading("Faceit Level", text="Faceit Level")
 result_tree.pack(expand=tk.YES, fill=tk.BOTH)
 
 # Faceit API key
-faceit_api_key = "d7e53670-ffad-45cf-a8b7-08067f257c8e"
+load_dotenv()
+faceit_api_key = os.environ.get('FACEIT_API_KEY')
+if faceit_api_key is None:
+    raise ValueError("Faceit API key not found. Set the FACEIT_API_KEY environment variable.")
 
 # Start the GUI main loop
 root.mainloop()
